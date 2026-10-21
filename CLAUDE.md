@@ -46,6 +46,10 @@
   - play_event (song_id, played_at)
 - Рекомендации считаются из play_event текущего пользователя.
 
+### UI
+- Цвета, шрифты, радиусы — только через токены темы (Tailwind 4 `@theme`). Никаких hex-цветов и font-family прямо в компонентах.
+- Позже: ретро-тема по макетам https://claude.ai/artifact/TLwcCTxWNzSqCzxNBmMF1d (тёмно-коричневый фон, кремовый текст, горчичный/оранжевый/бирюзовый акценты; Unbounded, Rubik, Lobster). Пока не внедряем.
+
 ### Backend-конвенции
 - REST JSON под /api. DTO — Java records, entity наружу не отдаём.
 - Схема БД меняется только миграциями Flyway, ddl-auto=validate.
