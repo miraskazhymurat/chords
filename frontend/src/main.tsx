@@ -6,7 +6,9 @@ import { AuthProvider, GuestOnly, RequireAdmin, RequireAuth } from './auth'
 import { Layout } from './Layout'
 import { LoginPage } from './pages/LoginPage'
 import { RegisterPage } from './pages/RegisterPage'
-import { HomePage } from './pages/HomePage'
+import { SongsPage } from './pages/SongsPage'
+import { SongPage } from './pages/SongPage'
+import { SongEditPage } from './pages/SongEditPage'
 import { ProfilePage } from './pages/ProfilePage'
 import { AdminPage } from './pages/AdminPage'
 
@@ -21,7 +23,10 @@ createRoot(document.getElementById('root')!).render(
           </Route>
           <Route element={<RequireAuth />}>
             <Route element={<Layout />}>
-              <Route index element={<HomePage />} />
+              <Route index element={<SongsPage />} />
+              <Route path="/songs/new" element={<SongEditPage />} />
+              <Route path="/songs/:id" element={<SongPage />} />
+              <Route path="/songs/:id/edit" element={<SongEditPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route element={<RequireAdmin />}>
                 <Route path="/admin" element={<AdminPage />} />

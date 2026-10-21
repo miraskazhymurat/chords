@@ -38,7 +38,7 @@ export function RegisterPage() {
     return (
       <AuthLayout title="Регистрация">
         <ErrorText>Нужна ссылка-приглашение. Попроси её у администратора.</ErrorText>
-        <Link to="/login" className="mt-6 block text-center text-amber-500">
+        <Link to="/login" className="mt-6 block text-center text-accent">
           Ко входу
         </Link>
       </AuthLayout>
@@ -82,7 +82,7 @@ export function RegisterPage() {
           {busy ? 'Создаём…' : 'Зарегистрироваться'}
         </Button>
       </form>
-      <Link to="/login" className="mt-6 block text-center text-sm text-neutral-500">
+      <Link to="/login" className="mt-6 block text-center text-sm text-fg-subtle">
         Уже есть аккаунт? Войти
       </Link>
     </AuthLayout>

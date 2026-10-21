@@ -5,7 +5,7 @@ import { Button, Card, ErrorText, errorMessage } from '../ui'
 
 export function AdminPage() {
   return (
-    <div className="space-y-6">
+    <div className="mx-auto max-w-3xl space-y-6">
       <h1 className="text-2xl font-semibold">Админка</h1>
       <InviteCard />
       <UsersCard />
@@ -56,13 +56,13 @@ function InviteCard() {
               readOnly
               value={link}
               onFocus={(e) => e.target.select()}
-              className="min-h-12 w-full rounded-xl border border-neutral-800 bg-neutral-950 px-4 font-mono text-sm text-neutral-200"
+              className="min-h-12 w-full rounded-xl border border-line bg-canvas px-4 font-mono text-sm text-fg"
             />
             <div className="flex flex-wrap items-center gap-3">
               <Button variant="secondary" onClick={copy}>
                 {copied ? 'Скопировано ✓' : 'Копировать ссылку'}
               </Button>
-              <span className="text-sm text-neutral-500">Одноразовая, действует до {expiresAt}</span>
+              <span className="text-sm text-fg-subtle">Одноразовая, действует до {expiresAt}</span>
             </div>
           </div>
         )}
@@ -98,22 +98,22 @@ function UsersCard() {
   return (
     <Card title="Пользователи">
       {reset && (
-        <div className="mb-4 rounded-xl border border-amber-700/50 bg-amber-950/40 p-3 text-sm">
+        <div className="mb-4 rounded-xl border border-notice-line/50 bg-notice-bg/40 p-3 text-sm">
           Временный пароль для <b>{reset.username}</b>:{' '}
-          <span className="select-all font-mono text-base text-amber-300">{reset.password}</span>
-          <p className="mt-1 text-neutral-400">Покажется один раз. Передай его пользователю — пусть сменит в профиле.</p>
+          <span className="select-all font-mono text-base text-notice-fg">{reset.password}</span>
+          <p className="mt-1 text-fg-muted">Покажется один раз. Передай его пользователю — пусть сменит в профиле.</p>
         </div>
       )}
       <ErrorText>{error}</ErrorText>
-      <ul className="divide-y divide-neutral-800">
+      <ul className="divide-y divide-line">
         {users.map((u) => (
           <li key={u.id} className="flex items-center gap-3 py-3">
             <div className="min-w-0 flex-1">
               <p className="truncate font-medium">
                 {u.username}
-                {u.role === 'ADMIN' && <span className="ml-2 text-xs text-amber-500">админ</span>}
+                {u.role === 'ADMIN' && <span className="ml-2 text-xs text-accent">админ</span>}
               </p>
-              <p className="text-xs text-neutral-500">с {new Date(u.createdAt).toLocaleDateString('ru-RU')}</p>
+              <p className="text-xs text-fg-subtle">с {new Date(u.createdAt).toLocaleDateString('ru-RU')}</p>
             </div>
             {u.id !== me?.id && (
               <Button variant="ghost" onClick={() => resetPassword(u)} className="text-sm">

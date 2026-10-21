@@ -79,5 +79,16 @@ cd backend
 | GET | `/api/admin/users` | ADMIN |
 | POST | `/api/admin/users/{id}/reset-password` | ADMIN |
 
+### Песни (шаг 1a)
+
+| Метод | Путь | Доступ |
+|---|---|---|
+| GET | `/api/songs?q=&page=0&size=50` | вошедшие — поиск по названию/исполнителю, без `content` |
+| GET | `/api/songs/duplicates?title=&artist=` | вошедшие — возможные дубликаты |
+| GET | `/api/songs/{id}` | вошедшие — песня целиком + `canEdit`, `canDelete` |
+| POST | `/api/songs` `{title, artist?, originalKey?, content}` | вошедшие |
+| PUT | `/api/songs/{id}` `{title, artist?, originalKey?, content, version}` | автор или ADMIN; устаревшая `version` → 409 |
+| DELETE | `/api/songs/{id}` | ADMIN |
+
 Все изменяющие запросы требуют заголовок `X-XSRF-TOKEN` со значением cookie `XSRF-TOKEN`.
 Без сессии `/api/**` отвечает 401 (без редиректа).

@@ -1,7 +1,9 @@
 package kz.chords;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -44,7 +46,7 @@ public abstract class AbstractIntegrationTest {
 
     @BeforeEach
     void cleanDatabase() {
-        jdbc.execute("TRUNCATE invite, app_user, spring_session RESTART IDENTITY CASCADE");
+        jdbc.execute("TRUNCATE song, invite, app_user, spring_session RESTART IDENTITY CASCADE");
     }
 
     protected AppUser createUser(String username, String password, Role role) {
@@ -52,7 +54,24 @@ public abstract class AbstractIntegrationTest {
     }
 
     protected ResultActions postJson(String url, Object body, Cookie... cookies) throws Exception {
-        MockHttpServletRequestBuilder request = post(url).with(csrf())
+        return sendJson(post(url), body, cookies);
+    }
+
+    protected ResultActions putJson(String url, Object body, Cookie... cookies) throws Exception {
+        return sendJson(put(url), body, cookies);
+    }
+
+    protected ResultActions deleteWithCsrf(String url, Cookie... cookies) throws Exception {
+        MockHttpServletRequestBuilder request = delete(url).with(csrf());
+        if (cookies.length > 0) {
+            request.cookie(cookies);
+        }
+        return mvc.perform(request);
+    }
+
+    private ResultActions sendJson(MockHttpServletRequestBuilder request, Object body, Cookie... cookies)
+            throws Exception {
+        request.with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json.writeValueAsString(body));
         if (cookies.length > 0) {

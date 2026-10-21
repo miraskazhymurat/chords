@@ -35,14 +35,14 @@ export function ProfilePage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="mx-auto max-w-3xl space-y-6">
       <h1 className="text-2xl font-semibold">Профиль</h1>
       <Card>
-        <p className="text-neutral-400">
-          Пользователь: <span className="text-neutral-100">{user?.username}</span>
+        <p className="text-fg-muted">
+          Пользователь: <span className="text-fg">{user?.username}</span>
         </p>
-        <p className="mt-1 text-neutral-400">
-          Роль: <span className="text-neutral-100">{user?.role === 'ADMIN' ? 'администратор' : 'пользователь'}</span>
+        <p className="mt-1 text-fg-muted">
+          Роль: <span className="text-fg">{user?.role === 'ADMIN' ? 'администратор' : 'пользователь'}</span>
         </p>
       </Card>
       <Card title="Смена пароля">

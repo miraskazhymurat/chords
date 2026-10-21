@@ -55,7 +55,7 @@ export function LoginPage() {
           {busy ? 'Входим…' : 'Войти'}
         </Button>
       </form>
-      <p className="mt-6 text-center text-sm text-neutral-500">Регистрация — только по приглашению.</p>
+      <p className="mt-6 text-center text-sm text-fg-subtle">Регистрация — только по приглашению.</p>
     </AuthLayout>
   )
 }
