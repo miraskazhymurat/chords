@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { NavLink, Outlet, useNavigate } from 'react-router'
 import { useAuth } from './auth'
 
@@ -32,7 +33,10 @@ export function Layout() {
         </button>
       </header>
       <main className="flex-1 px-4 py-6">
-        <Outlet />
+        {/* ленивые страницы: пока грузится чанк, шапка остаётся на месте */}
+        <Suspense fallback={null}>
+          <Outlet />
+        </Suspense>
       </main>
     </div>
   )

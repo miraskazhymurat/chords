@@ -1,21 +1,22 @@
 import { useState, type ClipboardEvent } from 'react'
 import { Link, useNavigate } from 'react-router'
-import type { SongInput } from '../api'
 import { importSong } from '../chords/import/importSong'
+import { loadImportText, saveImportText, type SongDraftState } from '../importDraft'
 import { Button, inputClass } from '../ui'
-
-/** Состояние перехода в редактор: импорт только готовит поля, сохраняет редактор. */
-export interface SongDraftState {
-  draft: SongInput
-}
 
 /** /songs/import: вставить песню «аккорды над текстом» (или ChordPro) → редактор с заполненными полями. */
 export function SongImportPage() {
   const navigate = useNavigate()
-  const [text, setText] = useState('')
+  const [text, setText] = useState(loadImportText)
+
+  function changeText(value: string) {
+    setText(value)
+    saveImportText(value)
+  }
 
   function openEditor(source: string) {
     if (!source.trim()) return
+    saveImportText(source)
     const state: SongDraftState = { draft: importSong(source) }
     navigate('/songs/new', { state })
   }
@@ -38,7 +39,7 @@ export function SongImportPage() {
         </span>
         <textarea
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          onChange={(e) => changeText(e.target.value)}
           onPaste={handlePaste}
           spellCheck={false}
           autoCapitalize="none"

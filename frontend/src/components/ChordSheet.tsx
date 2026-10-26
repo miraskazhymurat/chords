@@ -38,6 +38,10 @@ function SheetParagraph({ paragraph }: { paragraph: Paragraph }) {
 
 function SheetLine({ line }: { line: Line }) {
   const hasChords = line.items.some((item) => item instanceof ChordLyricsPair && (item.chords || item.annotation))
+  // Строка из одних аккордов (вступление, проигрыш) — без пустой строки текста под ними.
+  const hasLyrics = line.items.some(
+    (item) => (item instanceof ChordLyricsPair && item.lyrics?.trim()) || item instanceof Literal,
+  )
   return (
     <div className="flex flex-wrap items-end">
       {line.items.map((item, i) => {
@@ -48,7 +52,7 @@ function SheetLine({ line }: { line: Line }) {
               {hasChords && (
                 <span className="min-h-[1.3em] pr-[0.4em] font-bold whitespace-pre text-chord">{chord}</span>
               )}
-              <span className="break-words whitespace-pre-wrap">{item.lyrics || (chord ? ' ' : '')}</span>
+              {hasLyrics && <span className="break-words whitespace-pre-wrap">{item.lyrics || (chord ? ' ' : '')}</span>}
             </span>
           )
         }

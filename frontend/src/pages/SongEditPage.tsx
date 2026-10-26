@@ -4,7 +4,7 @@ import { api, ApiError, type SongDetails, type SongInput, type SongSummary } fro
 import { parseChordPro } from '../chords/chordpro'
 import { ChordSheet } from '../components/ChordSheet'
 import { useDebouncedValue } from '../hooks/useDebouncedValue'
-import type { SongDraftState } from './SongImportPage'
+import { clearImportText, type SongDraftState } from '../importDraft'
 import { Button, ErrorText, Field, buttonClass, errorMessage, inputClass } from '../ui'
 
 const EMPTY: SongInput = { title: '', artist: '', originalKey: '', content: '' }
@@ -62,6 +62,7 @@ export function SongEditPage() {
     setConflict(false)
     try {
       const saved = id === null ? await api.createSong(form) : await api.updateSong(id, form, version)
+      if (id === null) clearImportText()
       navigate(`/songs/${saved.id}`, { replace: true })
     } catch (err) {
       if (err instanceof ApiError && err.status === 409) setConflict(true)
@@ -72,6 +73,8 @@ export function SongEditPage() {
   }
 
   const set = (field: keyof SongInput) => (value: string) => setForm((f) => ({ ...f, [field]: value }))
+  // Импорт берёт «Исполнитель — Название» и путает поля, если на сайте было наоборот.
+  const swapTitleAndArtist = () => setForm((f) => ({ ...f, title: f.artist, artist: f.title }))
 
   if (!loaded) {
     return (
@@ -90,8 +93,18 @@ export function SongEditPage() {
     <form onSubmit={handleSubmit} className="space-y-4">
       <h1 className="text-2xl font-semibold">{id === null ? 'Новая песня' : 'Редактирование'}</h1>
 
-      <div className="grid gap-4 sm:grid-cols-[2fr_2fr_1fr]">
+      <div className="grid gap-4 sm:grid-cols-[2fr_auto_2fr_1fr]">
         <Field label="Название" value={form.title} onChange={(e) => set('title')(e.target.value)} maxLength={255} required />
+        <button
+          type="button"
+          onClick={swapTitleAndArtist}
+          aria-label="Поменять название и исполнителя местами"
+          title="Поменять название и исполнителя местами"
+          className="-my-2 flex min-h-11 min-w-11 items-center justify-center justify-self-center rounded-lg text-xl text-fg-muted hover:bg-raised hover:text-fg sm:my-0 sm:mb-0.5 sm:self-end"
+        >
+          {/* в столбик на телефоне поля стоят друг под другом — стрелки тоже вертикальные */}
+          <span className="inline-block rotate-90 sm:rotate-0">⇄</span>
+        </button>
         <Field label="Исполнитель" value={form.artist} onChange={(e) => set('artist')(e.target.value)} maxLength={255} />
         <Field
           label="Тональность"
