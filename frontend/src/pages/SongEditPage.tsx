@@ -1,9 +1,10 @@
 import { useDeferredValue, useEffect, useMemo, useState, type FormEvent } from 'react'
-import { Link, useNavigate, useParams } from 'react-router'
+import { Link, useLocation, useNavigate, useParams } from 'react-router'
 import { api, ApiError, type SongDetails, type SongInput, type SongSummary } from '../api'
 import { parseChordPro } from '../chords/chordpro'
 import { ChordSheet } from '../components/ChordSheet'
 import { useDebouncedValue } from '../hooks/useDebouncedValue'
+import type { SongDraftState } from './SongImportPage'
 import { Button, ErrorText, Field, buttonClass, errorMessage, inputClass } from '../ui'
 
 const EMPTY: SongInput = { title: '', artist: '', originalKey: '', content: '' }
@@ -17,7 +18,9 @@ export function SongEditPage() {
   const params = useParams()
   const id = params.id ? Number(params.id) : null
   const navigate = useNavigate()
-  const [form, setForm] = useState<SongInput>(EMPTY)
+  // Черновик со страницы импорта; живёт в истории браузера, поэтому переживает перезагрузку.
+  const draft = (useLocation().state as SongDraftState | null)?.draft
+  const [form, setForm] = useState<SongInput>(() => (id === null && draft ? draft : EMPTY))
   const [version, setVersion] = useState(0)
   const [loaded, setLoaded] = useState(id === null)
   const [loadError, setLoadError] = useState('')

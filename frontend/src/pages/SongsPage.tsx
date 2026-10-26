@@ -55,7 +55,7 @@ export function SongsPage() {
           enterKeyHint="search"
           className={`min-h-12 flex-1 ${inputClass}`}
         />
-        <Link to="/songs/new" className={buttonClass('primary', 'shrink-0')}>
+        <Link to="/songs/import" className={buttonClass('primary', 'shrink-0')}>
           Добавить
         </Link>
       </div>

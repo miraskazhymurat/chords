@@ -65,6 +65,11 @@ cd backend
 
 Интеграционные тесты сами поднимают Postgres через Testcontainers — нужен запущенный Docker.
 
+```bash
+cd frontend
+npm test   # Vitest: импорт «аккорды над текстом» → ChordPro (src/chords/import)
+```
+
 ## API (шаг 0)
 
 | Метод | Путь | Доступ |

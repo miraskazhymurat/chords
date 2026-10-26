@@ -7,6 +7,7 @@ import { CHORUS, ChordLyricsPair, Literal, Tag, type Line, type Paragraph, type 
 export function ChordSheet({ song, fontSize }: { song: Song; fontSize?: number }) {
   return (
     <div className="min-w-0 space-y-5 leading-snug" style={fontSize ? { fontSize: `${fontSize}px` } : undefined}>
+      {song.capo && <p className="text-[0.9em] text-fg-muted">Каподастр: {String(song.capo)} лад</p>}
       {song.expandedBodyParagraphs.map((paragraph, i) => (
         <SheetParagraph key={i} paragraph={paragraph} />
       ))}

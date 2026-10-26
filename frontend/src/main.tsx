@@ -9,6 +9,7 @@ import { RegisterPage } from './pages/RegisterPage'
 import { SongsPage } from './pages/SongsPage'
 import { SongPage } from './pages/SongPage'
 import { SongEditPage } from './pages/SongEditPage'
+import { SongImportPage } from './pages/SongImportPage'
 import { ProfilePage } from './pages/ProfilePage'
 import { AdminPage } from './pages/AdminPage'
 
@@ -24,6 +25,7 @@ createRoot(document.getElementById('root')!).render(
           <Route element={<RequireAuth />}>
             <Route element={<Layout />}>
               <Route index element={<SongsPage />} />
+              <Route path="/songs/import" element={<SongImportPage />} />
               <Route path="/songs/new" element={<SongEditPage />} />
               <Route path="/songs/:id" element={<SongPage />} />
               <Route path="/songs/:id/edit" element={<SongEditPage />} />
